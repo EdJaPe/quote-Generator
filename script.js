@@ -3,8 +3,22 @@ const quoteText = document.getElementById('quote')
 const authorText = document.getElementById('author')
 const twitterBtn = document.getElementById('twitter')
 const newQuoteBtn = document.getElementById('new-quote')
+const loader = document.getElementById('loader')
 
 let apiQuotes = [];
+
+// Show loading
+function loading(){
+  loader.hidden = false;
+  quoteContainer.hidden = true;
+
+}
+
+// Hide loading
+function complete() {
+  quoteContainer.hidden = false;
+  loader.hidden = true;
+}
 
 // Show New Quote
 function newQuote() {
@@ -19,13 +33,16 @@ function newQuote() {
   } else {
     quoteText.classList.remove('long-quote');
   }
+
+  // Set Quote length to determine styling
   quoteText.textContent = quote.text;
-  
+  complete()
 
 }
 
 // Get Quotes from API
 async function getQuotes() {
+  loading()
   const apiUrl = 'https://jacintodesign.github.io/quotes-api/data/quotes.json'
   try{
     const response = await fetch(apiUrl);
@@ -48,3 +65,4 @@ twitterBtn.addEventListener('click', tweetQuote)
 
 // On Load
 getQuotes()
+// loading()
